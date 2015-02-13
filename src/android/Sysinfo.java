@@ -61,7 +61,11 @@ public class Sysinfo extends CordovaPlugin {
 				cpuCores.put(cpuMaxFreq == 0 ? null : cpuMaxFreq);
 			}
 			
+			//Get architecture
+			String arch = getInfo();
+			
 			cpu.put("cores", cpuCores);
+			cpu.put("architecture", arch);
 			
 		} catch (final Exception e) { }
 		return cpu;
@@ -124,5 +128,25 @@ public class Sysinfo extends CordovaPlugin {
 	      sb.append(sc.nextLine());
 	    }
 	    return sb.toString();
+	}
+	
+	private String getInfo() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("abi: ").append(Build.CPU_ABI).append("\n");
+		if (new File("/proc/cpuinfo").exists()) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(new File("/proc/cpuinfo")));
+				String aLine;
+				while ((aLine = br.readLine()) != null) {
+					sb.append(aLine + "\n");
+				}
+				if (br != null) {
+					br.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		}
+		return sb.toString();
 	}
 }
