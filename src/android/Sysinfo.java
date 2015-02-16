@@ -12,6 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.Process;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -67,7 +70,9 @@ public class Sysinfo extends CordovaPlugin {
 			cpu.put("cores", cpuCores);
 			cpu.put("architecture", arch);
 			
-		} catch (final Exception e) { }
+		} catch (final Exception e) { 
+			Log.e("ERROR", e.toString());
+		}
 		return cpu;
 	}
 	
